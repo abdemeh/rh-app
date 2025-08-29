@@ -1,33 +1,31 @@
-// src/main/java/com/gestrh/web/CongePageServlet.java
 package com.gestrh.web;
 
-import com.gestrh.entity.Conge;
-import com.gestrh.entity.CongeType;
 import jakarta.persistence.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import jakarta.servlet.ServletException;
+import jakarta.servlet.*;
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet("/secure/conges")
+@WebServlet("/secure/conges1")
 public class CongePageServlet extends HttpServlet {
     @PersistenceContext(unitName="gestRH-PU") private EntityManager em;
 
     @Override protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        HttpSession s = req.getSession(false);
-        Integer userId = (Integer) s.getAttribute("userId");
 
-        List<CongeType> types = em.createQuery("SELECT t FROM CongeType t WHERE t.actif = true ORDER BY t.libelle",
-                CongeType.class).getResultList();
-        List<Conge> conges = em.createQuery(
-                        "SELECT c FROM Conge c WHERE c.utilisateur.id = :u ORDER BY c.id DESC", Conge.class)
-                .setParameter("u", userId)
+        Integer uid = (Integer) req.getSession().getAttribute("userId");
+
+        var types = em.createQuery(
+                        "SELECT t FROM CongeType t WHERE t.actif = true ORDER BY t.libelle", com.gestrh.entity.CongeType.class)
                 .getResultList();
-
         req.setAttribute("types", types);
-        req.setAttribute("conges", conges);
+
+        var q = em.createQuery(
+                "SELECT c.id, t.libelle, c.dateDebut, c.dateFin, c.nbJours, c.statut, c.motif, c.justificatifPath " +
+                        "FROM Conge c JOIN c.type t WHERE c.utilisateur.id = :u ORDER BY c.id DESC", Object[].class);
+        q.setParameter("u", uid);
+        req.setAttribute("conges", q.getResultList());
+
         req.getRequestDispatcher("/secure/conges.jsp").forward(req, resp);
     }
 }
