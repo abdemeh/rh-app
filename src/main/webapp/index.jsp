@@ -73,10 +73,5 @@
         <% } %>
     </div>
 </div>
-<div class="mt-4">
-    <a class="btn btn-outline-secondary" href="<%= request.getContextPath() %>/secure/reports/my-leaves.csv">
-        Télécharger mon historique (CSV)
-    </a>
-</div>
 </body>
 </html>
