@@ -56,6 +56,21 @@ public class Utilisateur {
     public void setEmail(String email) { this.email = email; }
     public String getMotDePasse() { return motDePasse; }
     public void setMotDePasse(String motDePasse) { this.motDePasse = motDePasse; }
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
     public Poste getPoste() { return poste; }
     public void setPoste(Poste poste) { this.poste = poste; }
     public Departement getDepartement() { return departement; }
