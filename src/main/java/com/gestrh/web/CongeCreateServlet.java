@@ -7,17 +7,23 @@ import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import jakarta.transaction.UserTransaction;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
+import java.nio.file.*;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @WebServlet("/secure/conges/create")
+@MultipartConfig( maxFileSize = 5 * 1024 * 1024 ) // 5MB
 public class CongeCreateServlet extends HttpServlet {
     @PersistenceContext(unitName="gestRH-PU") private EntityManager em;
     @Resource private UserTransaction utx;
+
+    private static final String DEFAULT_UPLOAD_DIR = System.getProperty("user.home") + File.separator + "gest-rh-uploads";
 
     @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -39,6 +45,33 @@ public class CongeCreateServlet extends HttpServlet {
             CongeType type = em.find(CongeType.class, Integer.valueOf(typeId));
             long days = java.time.temporal.ChronoUnit.DAYS.between(d1, d2) + 1;
 
+            // If type requires doc, enforce a PDF file is uploaded
+            Part part = req.getPart("justif"); // may be null if no file field
+            boolean needDoc = (type != null && Boolean.TRUE.equals(type.getRequiresDoc()));
+            if (needDoc) {
+                if (part == null || part.getSize() == 0) throw new IllegalArgumentException("Justificatif requis.");
+                String ct = part.getContentType();
+                if (ct == null || !ct.equalsIgnoreCase("application/pdf")) {
+                    throw new IllegalArgumentException("Le justificatif doit être un PDF.");
+                }
+            }
+
+            String uploadDir = System.getProperty("gest.upload.dir", DEFAULT_UPLOAD_DIR);
+            Files.createDirectories(Paths.get(uploadDir));
+
+            String savedPath = null, origName = null, mime = null;
+            if (part != null && part.getSize() > 0) {
+                origName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+                mime = part.getContentType();
+                String ext = ".pdf";
+                String name = UUID.randomUUID() + ext;
+                Path dest = Paths.get(uploadDir, name);
+                try (InputStream in = part.getInputStream()) {
+                    Files.copy(in, dest, StandardCopyOption.REPLACE_EXISTING);
+                }
+                savedPath = dest.toString();
+            }
+
             utx.begin();
             Conge c = new Conge();
             c.setUtilisateur(me);
@@ -48,6 +81,11 @@ public class CongeCreateServlet extends HttpServlet {
             c.setNbJours(new BigDecimal(days));
             c.setMotif(motif);
             c.setStatut("en_attente");
+            if (savedPath != null) {
+                c.setJustificatifPath(savedPath);
+                c.setJustificatifName(origName);
+                c.setJustificatifType(mime);
+            }
             em.persist(c);
             utx.commit();
 
