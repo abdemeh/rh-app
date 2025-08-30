@@ -11,6 +11,7 @@
         <div class="d-flex gap-2">
             <a class="btn btn-sm btn-light" href="<c:url value='/secure/conges'/>">Congés</a>
             <a class="btn btn-sm btn-outline-light" href="<c:url value='/auth/logout'/>">Logout</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/account/profile">Mon profil</a>
         </div>
     </div>
 </nav>
