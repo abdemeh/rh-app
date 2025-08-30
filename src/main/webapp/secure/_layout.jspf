@@ -15,6 +15,8 @@
     :root{ --bs-primary:#24af9c; }
     .btn-primary{ background:var(--bs-primary); border-color:var(--bs-primary); }
     .btn-primary:hover{ background:#1c998a; border-color:#1c998a; }
+    .btn-outline-primary{color:#1c998a; border-color:#1c998a; }
+    .btn-outline-primary:hover{ background:#1c998a; border-color:#1c998a; }
 </style>
 <nav class="navbar navbar-expand-lg" style="background:#24af9c;">
     <div class="container">

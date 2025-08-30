@@ -4,14 +4,22 @@
     :root{ --bs-primary:#24af9c; }
     .btn-primary{ background:var(--bs-primary); border-color:var(--bs-primary); }
     .btn-primary:hover{ background:#1c998a; border-color:#1c998a; }
+    .btn-outline-primary{color:#1c998a; border-color:#1c998a; }
+    .btn-outline-primary:hover{ background:#1c998a; border-color:#1c998a; }
+
 </style>
-<nav class="navbar" style="background:#24af9c;">
+<nav class="navbar navbar-expand-lg" style="background:#24af9c;">
     <div class="container">
-        <a class="navbar-brand text-white" href="<c:url value='/admin/'/>">GestRH Admin</a>
+        <a class="navbar-brand text-white" href="<c:url value='/'/>">GestRH Admin</a>
         <div class="d-flex gap-2">
-            <a class="btn btn-sm btn-light" href="<c:url value='/'/>">App</a>
-            <a class="btn btn-primary mt-3" href="<c:url value='/admin/reports'/>">Rapports</a>
+            <a class="btn btn-sm btn-light" href="<c:url value='/admin/users'/>">Employ&#233;s</a>
+            <a class="btn btn-sm btn-light" href="<c:url value='/admin/departements'/>">D&#233;partements</a>
+            <a class="btn btn-sm btn-light" href="<c:url value='/admin/conges/pending'/>">Cong&#233;s</a>
+            <a class="btn btn-sm btn-light" href="<c:url value='/admin/reports'/>">Rapports</a>
             <a class="btn btn-sm btn-outline-light" href="<c:url value='/auth/logout'/>">Logout</a>
         </div>
+        <span class="navbar-text text-white ms-auto">
+      Welcome, <%= session.getAttribute("userName") %>
+    </span>
     </div>
 </nav>
