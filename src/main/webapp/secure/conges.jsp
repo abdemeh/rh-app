@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%
     if (session == null || session.getAttribute("userId") == null) {
@@ -15,15 +15,7 @@
     <style>:root{ --bs-primary:#24af9c; }</style>
 </head>
 <body class="bg-body-tertiary">
-<nav class="navbar" style="background:#24af9c;">
-    <div class="container">
-        <a class="navbar-brand text-white" href="<c:url value='/'/>">GestRH</a>
-        <div class="d-flex gap-2">
-            <a class="btn btn-sm btn-light" href="<c:url value='/secure/presences'/>">Présences</a>
-            <a class="btn btn-sm btn-outline-light" href="<c:url value='/auth/logout'/>">Logout</a>
-        </div>
-    </div>
-</nav>
+<%@ include file="/secure/_layout.jspf" %>
 
 <div class="container py-4">
     <h4 class="mb-3">Demander un congé</h4>

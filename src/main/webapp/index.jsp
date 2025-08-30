@@ -1,15 +1,4 @@
-<%@ page session="true" contentType="text/html; charset=UTF-8" %>
-<%
-    // Auth guard
-    if (session == null || session.getAttribute("userId") == null) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
-    // Role check (set at login via SecurityUtil.loadRoles(...))
-    java.util.Set roles = (java.util.Set) session.getAttribute("roles");
-    boolean isAdmin = (roles != null && roles.contains("ADMIN"));
-    String ctx = request.getContextPath();
-%>
+<%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -20,23 +9,7 @@
     <style>:root{ --bs-primary:#24af9c; }</style>
 </head>
 <body class="bg-body-tertiary">
-
-<nav class="navbar navbar-expand-lg" style="background:#24af9c;">
-    <div class="container">
-        <a class="navbar-brand text-white" href="#">GestRH</a>
-        <div class="d-flex gap-2">
-            <a class="btn btn-sm btn-light" href="<%= ctx %>/secure/conges">Congés</a>
-            <a class="btn btn-sm btn-light" href="<%= ctx %>/secure/presences">Présences</a>
-            <% if (isAdmin) { %>
-            <a class="btn btn-sm btn-warning" href="<%= ctx %>/admin/">Admin</a>
-            <% } %>
-            <a class="btn btn-sm btn-outline-light" href="<%= ctx %>/auth/logout">Logout</a>
-        </div>
-        <span class="navbar-text text-white ms-auto">
-      Welcome, <%= session.getAttribute("userName") %>
-    </span>
-    </div>
-</nav>
+<%@ include file="/secure/_layout.jspf" %>
 
 <div class="container py-4">
     <div class="row g-3">
