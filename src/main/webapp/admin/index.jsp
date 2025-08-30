@@ -30,7 +30,7 @@
     </div>
 
     <div class="mt-4">
-        <a class="btn btn-primary" href="<c:url value='/admin/conges-types'/>">Types de congés</a>
+        <a class="btn btn-primary" href="<c:url value='/admin/conges/types'/>">Types de congés</a>
     </div>
 </div>
 </body></html>

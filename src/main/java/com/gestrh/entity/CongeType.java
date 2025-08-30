@@ -1,7 +1,6 @@
 package com.gestrh.entity;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "conges_types")
@@ -11,26 +10,25 @@ public class CongeType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 30)
+    @Column(name = "code", nullable = false, length = 100)
     private String code;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "libelle", nullable = false, length = 255)
     private String libelle;
 
-    @Column(name = "max_jours_an", precision = 5, scale = 2)
-    private BigDecimal maxJoursAn;
+    @Column(name = "max_jours_an")
+    private Integer maxJoursAn;
 
-    @Column(name = "approval_levels", nullable = false)
-    private int approvalLevels = 1;
+    @Column(name = "approval_levels")
+    private Integer approvalLevels;
 
-    @Column(name = "requires_doc", nullable = false)
-    private boolean requiresDoc = false;
+    @Column(name = "requires_doc")
+    private Boolean requiresDoc;
 
-    @Column(name = "actif", nullable = false)
-    private boolean actif = true;
+    @Column(name = "actif")
+    private Boolean actif;
 
-    public CongeType() {}
-
+    // ---------- Canonical getters/setters ----------
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
@@ -40,17 +38,35 @@ public class CongeType {
     public String getLibelle() { return libelle; }
     public void setLibelle(String libelle) { this.libelle = libelle; }
 
-    public BigDecimal getMaxJoursAn() { return maxJoursAn; }
-    public void setMaxJoursAn(BigDecimal maxJoursAn) { this.maxJoursAn = maxJoursAn; }
+    public Integer getMaxJoursAn() { return maxJoursAn; }
+    public void setMaxJoursAn(Integer maxJoursAn) { this.maxJoursAn = maxJoursAn; }
 
-    public int getApprovalLevels() { return approvalLevels; }
-    public void setApprovalLevels(int approvalLevels) { this.approvalLevels = approvalLevels; }
+    public Integer getApprovalLevels() { return approvalLevels; }
+    public void setApprovalLevels(Integer approvalLevels) { this.approvalLevels = approvalLevels; }
 
-    public boolean getRequiresDoc() { return requiresDoc; }   // used in JSP/servlet
-    public boolean isRequiresDoc() { return requiresDoc; }
-    public void setRequiresDoc(boolean requiresDoc) { this.requiresDoc = requiresDoc; }
+    public Boolean getRequiresDoc() { return requiresDoc; }
+    public void setRequiresDoc(Boolean requiresDoc) { this.requiresDoc = requiresDoc; }
+    public boolean isRequiresDoc() { return Boolean.TRUE.equals(requiresDoc); }
 
-    public boolean isActif() { return actif; }
-    public boolean getActif() { return actif; }
-    public void setActif(boolean actif) { this.actif = actif; }
+    public Boolean getActif() { return actif; }
+    public void setActif(Boolean actif) { this.actif = actif; }
+    public boolean isActif() { return Boolean.TRUE.equals(actif); }
+
+    // ---------- Backward-compat aliases ----------
+    // Some code calls these older names; keep them delegating to the real fields.
+
+    /** alias for libellé/intitulé used elsewhere */
+    public String getNom() { return getLibelle(); }
+    public void setNom(String nom) { setLibelle(nom); }
+
+    public String getIntitule() { return getLibelle(); }
+    public void setIntitule(String intitule) { setLibelle(intitule); }
+
+    /** plural/singular variants used in other servlets */
+    public Integer getJoursAnnuels() { return getMaxJoursAn(); }
+    public void setJoursAnnuels(Integer v) { setMaxJoursAn(v); }
+    public Integer getJoursAnnuel() { return getMaxJoursAn(); }
+    public void setJoursAnnuel(Integer v) { setMaxJoursAn(v); }
+
+    // No 'description' column in DB → do NOT map; if some code calls getDescription(), add a transient if ever needed.
 }
