@@ -24,10 +24,8 @@
         <div class="d-flex gap-2">
             <a class="btn btn-sm btn-light" href="<c:url value='/secure/conges'/>">Cong&#233;s</a>
             <a class="btn btn-sm btn-light" href="<c:url value='/secure/presences'/>">Pr&#233;sences</a>
+            <a class="btn btn-sm btn-light" href="${pageContext.request.contextPath}/calendar">Calendrier</a>
             <a class="btn btn-sm btn-light" href="<c:url value='/account/profile'/>">Mon profil</a>
-            <% if (isAdmin) { %>
-            <a class="btn btn-sm btn-warning" href="<%= ctx %>/admin/">Admin</a>
-            <% } %>
             <a class="btn btn-sm btn-outline-light" href="<c:url value='/auth/logout'/>">Logout</a>
         </div>
         <span class="navbar-text text-white ms-auto">
