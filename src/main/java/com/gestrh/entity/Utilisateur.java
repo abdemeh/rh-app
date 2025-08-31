@@ -44,6 +44,10 @@ public class Utilisateur {
 
     @Column(name = "last_login", columnDefinition = "datetime")
     private LocalDateTime lastLogin;
+    @Column(name = "deleted_at")
+    private java.time.LocalDateTime deletedAt;
+
+
 
     public Utilisateur() {}
 
@@ -71,6 +75,7 @@ public class Utilisateur {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
+
     public Poste getPoste() { return poste; }
     public void setPoste(Poste poste) { this.poste = poste; }
     public Departement getDepartement() { return departement; }
@@ -90,4 +95,7 @@ public class Utilisateur {
     public LocalDateTime getDateCreation() { return dateCreation; }
     public LocalDateTime getLastLogin() { return lastLogin; }
     public void setLastLogin(LocalDateTime lastLogin) { this.lastLogin = lastLogin; }
+    public java.time.LocalDateTime getDeletedAt() { return deletedAt; }
+    public void setDeletedAt(java.time.LocalDateTime deletedAt) { this.deletedAt = deletedAt; }
+
 }
