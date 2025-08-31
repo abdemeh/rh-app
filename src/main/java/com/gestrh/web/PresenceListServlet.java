@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-@WebServlet("/secure/presences")
+@WebServlet("/secure/presences1")
 public class PresenceListServlet extends HttpServlet {
 
     @PersistenceContext(unitName = "gestRH-PU")
