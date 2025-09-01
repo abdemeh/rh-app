@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GestRH – Documentation complète</title>
+    <style>
+        :root{
+            --primary:#24af9c;
+            --primary-600:#1c998a;
+            --primary-50:#e8f7f4;
+            --bg:#f6f8fb;
+            --text:#1f2a37;
+            --muted:#6b7280;
+            --card:#ffffff;
+            --border:#e5e7eb;
+            --shadow:0 10px 25px rgba(0,0,0,.08);
+            --radius:16px;
+        }
+        *{box-sizing:border-box}
+        html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+        h1,h2,h3{letter-spacing:.2px}
+        a{color:var(--primary);text-decoration:none}
+        a:hover{text-decoration:underline}
+        header.site{
+            background:var(--primary);
+            color:#fff;
+            box-shadow:var(--shadow); position:sticky; top:0; z-index:40;
+        }
+        header .wrap{max-width:1200px;margin:0 auto;padding:22px 18px;display:flex;align-items:center;gap:16px}
+        header h1{margin:0;font-size:22px}
+        header .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+        header .pill{background:rgba(255,255,255,.14);padding:6px 10px;border-radius:999px;font-size:12px}
+        main{max-width:1200px;margin:24px auto;display:grid;grid-template-columns:280px 1fr;gap:24px;padding:0 16px}
+        @media (max-width: 980px){main{grid-template-columns:1fr} aside{position:static}}
+        aside{
+            position:sticky;top:88px;align-self:start;background:var(--card);border:1px solid var(--border);
+            border-radius:var(--radius);box-shadow:var(--shadow);padding:18px
+        }
+        aside h3{margin:0 0 8px 0;font-size:14px;text-transform:uppercase;color:var(--muted);letter-spacing:.08em}
+        nav.toc a{display:block;padding:6px 8px;border-radius:8px;color:var(--text)}
+        nav.toc a:hover{background:var(--primary-50)}
+        nav.toc .sub{padding-left:10px;color:var(--muted);font-size:14px}
+        section.card{
+            background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:18px
+        }
+        h2{margin-top:0;font-size:28px}
+        h3{margin-top:28px;font-size:20px}
+        .kpi{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 6px}
+        .chip{background:var(--primary-50);border:1px solid var(--border);padding:6px 10px;border-radius:999px;font-size:13px}
+        figure{margin:16px 0;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff}
+        figure img{display:block;width:100%;height:auto}
+        figcaption{padding:10px 12px;background:#fafafa;border-top:1px solid var(--border);font-size:13px;color:var(--muted)}
+        .callout{background:linear-gradient(180deg,#fff,#fafafa);border:1px solid var(--border);border-left:4px solid var(--primary);padding:12px 14px;border-radius:12px;margin:12px 0;color:#374151}
+        .codebox{background:#0b1020;color:#e5e7eb;border-radius:12px;padding:14px 16px;overflow:auto;border:1px solid #141a2a;font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:13px}
+        .split{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+        @media (max-width: 920px){.split{grid-template-columns:1fr}}
+        .logo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px}
+        .logo-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fff}
+        .logo-card img{width:28px;height:28px;object-fit:contain}
+        table.tbl{width:100%;border-collapse:collapse;margin:8px 0;border:1px solid var(--border)}
+        table.tbl th, table.tbl td{padding:10px;border-top:1px solid var(--border);text-align:left;font-size:14px}
+        table.tbl th{background:#fbfbfb;color:#111}
+        footer{max-width:1200px;margin:24px auto 48px;padding:0 16px;color:var(--muted)}
+        .hint{font-size:13px;color:var(--muted)}
+    </style>
+</head>
+<body>
+<header class="site">
+    <div class="wrap">
+        <h1>GestRH — Documentation fonctionnelle & technique</h1>
+        <div class="right">
+            <span class="pill">INFOSAT Agadir</span>
+        </div>
+    </div>
+</header>
+
+<main>
+    <aside>
+        <h3>Sommaire</h3>
+        <nav class="toc">
+            <a href="#intro">1. Introduction</a>
+            <a href="#stack">2. Technologies</a>
+            <a href="#structure">3. Structure du projet</a>
+            <a href="#admin">4. Espace Administrateur</a>
+            <a class="sub" href="#admin-dashboard">4.1 Tableau de bord</a>
+            <a class="sub" href="#admin-users">4.2 Employés</a>
+            <a class="sub" href="#admin-depts">4.3 Départements</a>
+            <a class="sub" href="#admin-leaves">4.4 Congés</a>
+            <a class="sub" href="#admin-presences">4.5 Présences</a>
+            <a class="sub" href="#admin-reports">4.6 Rapports PDF</a>
+            <a href="#employee">5. Espace Employé</a>
+            <a class="sub" href="#emp-login">5.1 Connexion</a>
+            <a class="sub" href="#emp-leaves">5.2 Mes congés</a>
+            <a class="sub" href="#emp-presence">5.3 Ma présence</a>
+            <a class="sub" href="#emp-calendar">5.4 Calendrier</a>
+            <a class="sub" href="#emp-reports">5.5 Mes rapports</a>
+            <a class="sub" href="#emp-profile">5.6 Mon profil</a>
+            <a href="#mapping">6. Mapping écrans ⇄ servlets</a>
+            <a href="#deploy">7. Déploiement</a>
+            <a href="#license">8. Licence</a>
+        </nav>
+    </aside>
+
+    <div>
+        <section id="intro" class="card">
+            <h2>1. Introduction</h2>
+            <p><strong>GestRH</strong> est une application de gestion des ressources humaines développée en <em>Java EE (JSP + Servlets)</em> et <em>MySQL</em>. Elle propose deux espaces : <strong>Administrateur</strong> et <strong>Employé</strong>. Cette documentation relie chaque <em>capture d’écran</em> aux <em>servlets</em> qui fournissent la logique côté serveur, et résume la pile technique, la structure du projet et les étapes de déploiement.</p>
+            <div class="kpi">
+                <span class="chip">Employés & Départements</span>
+                <span class="chip">Congés + justificatifs PDF</span>
+                <span class="chip">Présences (check-in/out)</span>
+                <span class="chip">Calendrier partagé</span>
+                <span class="chip">Rapports PDF (iText)</span>
+            </div>
+        </section>
+
+        <section id="stack" class="card">
+            <h2>2. Technologies</h2>
+            <div class="logo-grid">
+                <div class="logo-card"><img src="img/logos/java.png" alt="Java"><div><strong>Java</strong><br><span class="hint">JDK 17+</span></div></div>
+                <div class="logo-card"><img src="img/logos/jsp.png" alt="JSP"><div><strong>JSP / Servlets</strong><br><span class="hint">Jakarta EE</span></div></div>
+                <div class="logo-card"><img src="img/logos/mysql.png" alt="MySQL"><div><strong>MySQL</strong><br><span class="hint">Base de données</span></div></div>
+                <div class="logo-card"><img src="img/logos/maven.png" alt="Maven"><div><strong>Maven</strong><br><span class="hint">Gestion de projet</span></div></div>
+                <div class="logo-card"><img src="img/logos/payara.png" alt="Tomcat"><div><strong>Payara</strong><br><span class="hint">Serveur d’app</span></div></div>
+                <div class="logo-card"><img src="img/logos/chartjs.png" alt="Chart.js"><div><strong>Chart.js</strong><br><span class="hint">Graphiques</span></div></div>
+                <div class="logo-card"><img src="img/logos/itext.png" alt="iText"><div><strong>iText</strong><br><span class="hint">PDF</span></div></div>
+                <div class="logo-card"><img src="img/logos/bootstrap.png" alt="Bootstrap"><div><strong>Bootstrap</strong><br><span class="hint">UI</span></div></div>
+            </div>
+        </section>
+
+        <section id="structure" class="card">
+            <h2>3. Structure du projet</h2>
+            <div class="codebox"><pre>gest-rh/
+├── src/main/java/com/gestrh/
+│   ├── config/ (AppBootstrap, JaxrsConfig)
+│   ├── entity/ (Utilisateur, Departement, Conge, Presence, ...)
+│   ├── web/
+│   │   ├── admin/ (AdminUsersServlet, AdminDepartementsServlet, ...)
+│   │   ├── calendar/ (CalendarServlet, CalendarSaveServlet)
+│   │   ├── secure/ (PresenceListServlet, UserReportsServlet, ...)
+│   │   ├── LoginServlet, LogoutServlet, MyLeavesReportServlet, ...
+│   └── ...
+├── src/main/webapp/
+│   ├── admin/ (users.jsp, user_form.jsp, departements.jsp, ...)
+│   ├── secure/ (conges.jsp, presences.jsp, reports.jsp)
+│   ├── calendar/index.jsp, css/styles.css, img/
+│   ├── index.jsp, login.jsp, WEB-INF/web.xml
+└── pom.xml, db/schema.sql</pre></div>
+        </section>
+
+        <!-- ADMIN -->
+        <section id="admin" class="card">
+            <h2>4. Espace Administrateur</h2>
+        </section>
+
+        <section id="admin-dashboard" class="card">
+            <div class="split">
+                <div>
+                    <h3>4.1 Tableau de bord</h3>
+                    <p>Indicateurs clés : employés, départements, congés en attente, présences du jour. Graphiques : activité mensuelle (congés, présences, masse salariale), répartition des congés, employés par département.</p>
+                    <div class="callout"><strong>Back-end</strong> : <code>AdminUsersServlet</code>, <code>AdminDepartementsServlet</code>, <code>AdminPendingLeavesServlet</code>, <code>AdminPresenceServlet</code> agrègent les données et alimentent Chart.js.</div>
+                </div>
+                <figure>
+                    <img src="img/image001.png" alt="Dashboard admin">
+                    <figcaption>Image 1 — Dashboard administrateur</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section id="admin-users" class="card">
+            <div class="split">
+                <figure>
+                    <img src="img/image002.png" alt="Liste employés">
+                    <figcaption>Image 2 — Employés (liste)</figcaption>
+                </figure>
+                <div>
+                    <h3>4.2 Employés</h3>
+                    <p>Gestion CRUD des employés : nom, email, poste, département, manager, statut, contrat, dates, salaire.</p>
+                    <div class="codebox">GET /secure/admin/users → AdminUsersServlet#doGet<br>POST /secure/admin/users → AdminUserSaveServlet#doPost<br>GET /secure/admin/user/edit?id=… → AdminUserEditServlet#doGet</div>
+                </div>
+            </div>
+            <figure>
+                <img src="img/image003.png" alt="Créer employé">
+                <figcaption>Image 3 — Formulaire : créer un employé</figcaption>
+            </figure>
+        </section>
+
+        <section id="admin-depts" class="card">
+            <div class="split">
+                <div>
+                    <h3>4.3 Départements</h3>
+                    <p>Création/mise à jour des départements et attribution du responsable.</p>
+                    <div class="codebox">GET /secure/admin/departements → AdminDepartementsServlet#doGet<br>POST /secure/admin/departements → AdminDepartementsServlet#doPost</div>
+                </div>
+                <figure>
+                    <img src="img/image004.png" alt="Départements">
+                    <figcaption>Image 4 — Départements (CRUD + responsable)</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section id="admin-leaves" class="card">
+            <h3>4.4 Congés</h3>
+            <p>Validation des demandes, administration des types, lecture des justificatifs PDF.</p>
+            <figure>
+                <img src="img/image005.png" alt="Congés en attente">
+                <figcaption>Image 5 — Congés en attente : approuver / rejeter</figcaption>
+            </figure>
+            <figure>
+                <img src="img/image006.png" alt="Types de congés">
+                <figcaption>Image 6 — Types de congés : code, libellé, max/an, niveaux, justificatif</figcaption>
+            </figure>
+            <figure>
+                <img src="img/image007.png" alt="Justificatif PDF">
+                <figcaption>Image 7 — Prévisualisation du justificatif PDF</figcaption>
+            </figure>
+            <div class="codebox">GET /secure/admin/conges/pending → AdminPendingLeavesServlet#doGet<br>POST /secure/admin/conges/approve → AdminApproveLeaveServlet#doPost<br>GET /secure/admin/justif/:id.pdf → JustificatifViewServlet#doGet</div>
+        </section>
+
+        <section id="admin-presences" class="card">
+            <div class="split">
+                <figure>
+                    <img src="img/image008.png" alt="Présences admin">
+                    <figcaption>Image 8 — Présences : qui est en ligne + récap</figcaption>
+                </figure>
+                <div>
+                    <h3>4.5 Présences</h3>
+                    <p>Suivi des utilisateurs en ligne et historique par mois avec export PDF.</p>
+                    <div class="codebox">GET /secure/admin/presences → AdminPresenceServlet#doGet<br>GET /secure/admin/presences/:user?mois=YYYY-MM → PresenceListServlet#doGet</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="admin-reports" class="card">
+            <div class="split">
+                <div>
+                    <h3>4.6 Rapports PDF</h3>
+                    <p>Exports PDF : par utilisateur, département, poste, ou salaires par mois.</p>
+                    <div class="codebox">POST /secure/admin/reports/users → UserReportsServlet#doPost<br>POST /secure/admin/reports/salaries → MyLeavesReportServlet#doPost</div>
+                </div>
+                <figure>
+                    <img src="img/image009.png" alt="Rapports admin">
+                    <figcaption>Image 9 — Générer des rapports PDF</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- EMPLOYEE -->
+        <section id="employee" class="card">
+            <h2>5. Espace Employé</h2>
+        </section>
+
+        <section id="emp-login" class="card">
+            <div class="split">
+                <figure>
+                    <img src="img/image010.png" alt="Connexion">
+                    <figcaption>Image 10 — Connexion</figcaption>
+                </figure>
+                <div>
+                    <h3>5.1 Connexion</h3>
+                    <p>Authentification par email + mot de passe. Création de session et contrôle des rôles via filtres.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="emp-leaves" class="card">
+            <div class="split">
+                <div>
+                    <h3>5.2 Mes congés</h3>
+                    <p>Soumission et suivi des demandes de congés, avec justificatif PDF. Historique et statut.</p>
+                    <div class="codebox">GET /secure/leaves → page + liste<br>POST /secure/leaves/submit → création<br>GET /secure/leaves/justif/:id.pdf → JustificatifViewServlet#doGet</div>
+                </div>
+                <figure>
+                    <img src="img/image011.png" alt="Demande congé">
+                    <figcaption>Image 11 — Demander un congé & suivre ses demandes</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section id="emp-presence" class="card">
+            <div class="split">
+                <figure>
+                    <img src="img/image012.png" alt="Présence">
+                    <figcaption>Image 12 — Ma présence : check-in / check-out</figcaption>
+                </figure>
+                <div>
+                    <h3>5.3 Ma présence</h3>
+                    <p>Pointage quotidien et historique des 30 derniers jours. Aperçu des collègues en ligne.</p>
+                    <div class="codebox">POST /secure/presence/checkin → PresenceListServlet#doPost<br>POST /secure/presence/checkout → PresenceListServlet#doPost<br>GET /secure/presence?month=… → PresenceListServlet#doGet</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="emp-calendar" class="card">
+            <div class="split">
+                <div>
+                    <h3>5.4 Calendrier</h3>
+                    <p>Calendrier partagé mensuel : événements d’entreprise + ajouts personnels.</p>
+                    <div class="codebox">GET /secure/calendar → CalendarServlet#doGet<br>POST /secure/calendar → CalendarServlet#doPost</div>
+                </div>
+                <figure>
+                    <img src="img/image013.png" alt="Calendrier partagé">
+                    <figcaption>Image 13 — Calendrier partagé</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section id="emp-reports" class="card">
+            <div class="split">
+                <figure>
+                    <img src="img/image014.png" alt="Rapports personnels">
+                    <figcaption>Image 14 — Mes rapports PDF</figcaption>
+                </figure>
+                <div>
+                    <h3>5.5 Mes rapports</h3>
+                    <p>Rapports personnels de congés & rémunération sur période, et salaire/mois.</p>
+                    <div class="codebox">POST /secure/my/reports/leaves → MyLeavesReportServlet#doPost<br>POST /secure/my/reports/salary → MyLeavesReportServlet#doPost</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="emp-profile" class="card">
+            <div class="split">
+                <div>
+                    <h3>5.6 Mon profil</h3>
+                    <p>Mise à jour des informations personnelles et mot de passe.</p>
+                    <div class="codebox">POST /secure/profile/update → AdminUserEditServlet#doPost (update self)</div>
+                </div>
+                <figure>
+                    <img src="img/image015.png" alt="Profil utilisateur">
+                    <figcaption>Image 15 — Mon profil</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section id="mapping" class="card">
+            <h2>6. Mapping écrans ⇄ servlets</h2>
+            <table class="tbl">
+                <thead><tr><th>Écran</th><th>Servlet(s) principal(aux)</th><th>Routes (exemple)</th></tr></thead>
+                <tbody>
+                <tr><td>Dashboard Admin</td><td>AdminDashboardServlet, AdminUsersServlet, AdminDepartementsServlet, AdminPendingLeavesServlet, AdminPresenceServlet</td><td>/secure/admin, /secure/admin/users</td></tr>
+                <tr><td>Employés</td><td>AdminUsersServlet, AdminUserEditServlet, AdminUserSaveServlet</td><td>/secure/admin/users, /secure/admin/user/edit</td></tr>
+                <tr><td>Départements</td><td>AdminDepartementsServlet</td><td>/secure/admin/departements</td></tr>
+                <tr><td>Congés en attente</td><td>AdminPendingLeavesServlet, AdminApproveLeaveServlet, JustificatifViewServlet</td><td>/secure/admin/conges/pending</td></tr>
+                <tr><td>Présences Admin</td><td>AdminPresenceServlet, PresenceListServlet</td><td>/secure/admin/presences</td></tr>
+                <tr><td>Rapports Admin</td><td>UserReportsServlet, MyLeavesReportServlet</td><td>/secure/admin/reports/*</td></tr>
+                <tr><td>Connexion</td><td>LoginServlet</td><td>/login</td></tr>
+                <tr><td>Mes congés</td><td>CongeCreateServlet, CongeListServlet, JustificatifViewServlet</td><td>/secure/conges, /secure/conges/create</td></tr>
+                <tr><td>Ma présence</td><td>PresenceListServlet</td><td>/secure/presence</td></tr>
+                <tr><td>Calendrier</td><td>CalendarServlet, CalendarSaveServlet</td><td>/secure/calendar</td></tr>
+                <tr><td>Mes rapports</td><td>MyLeavesReportServlet</td><td>/secure/my/reports/*</td></tr>
+                <tr><td>Mon profil</td><td>AdminUserEditServlet</td><td>/secure/profile/update</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="deploy" class="card">
+            <h2>7. Déploiement (résumé)</h2>
+            <ol>
+                <li>Cloner le dépôt et ouvrir le projet Maven.</li>
+                <li>Créer la base <code>gest_rh</code> et importer <code>db/schema.sql</code>.</li>
+                <li>Configurer la source de données et <code>persistence.xml</code>.</li>
+                <li>Compiler et packager : <code>mvn clean package</code>.</li>
+                <li>Déployer le <code>.war</code> sur Tomcat ou Payara.</li>
+                <li>Accéder à <code>http://localhost:8080/gest-rh</code>.</li>
+            </ol>
+        </section>
+
+        <section id="license" class="card">
+            <h2>8. Licence</h2>
+            <p>Projet distribué sous licence <strong>MIT</strong>. Les logos des technologies restent la propriété de leurs détenteurs respectifs.</p>
+        </section>
+    </div>
+</main>
+
+<footer>
+    <p>© 2025 INFOSAT</p>
+</footer>
+</body>
+</html>
