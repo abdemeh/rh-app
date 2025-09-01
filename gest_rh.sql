@@ -88,23 +88,16 @@ DROP TABLE IF EXISTS `calendrier_evenements`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `calendrier_evenements` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `titre` varchar(150) NOT NULL,
-  `description` text,
-  `start_at` datetime NOT NULL,
-  `end_at` datetime NOT NULL,
-  `location` varchar(150) DEFAULT NULL,
-  `type` enum('ferie','reunion','deadline','formation','autre') NOT NULL DEFAULT 'autre',
-  `visibility` enum('public','departement','prive') NOT NULL DEFAULT 'public',
-  `created_by` int NOT NULL,
-  `departement_id` int DEFAULT NULL,
+  `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `date_evenement` date NOT NULL,
+  `cree_par` int DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `idx_event_window` (`start_at`,`end_at`),
-  KEY `fk_event_creator` (`created_by`),
-  KEY `fk_event_dept` (`departement_id`),
-  CONSTRAINT `fk_event_creator` FOREIGN KEY (`created_by`) REFERENCES `utilisateurs` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_event_dept` FOREIGN KEY (`departement_id`) REFERENCES `departements` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `calendrier_evenements_chk_1` CHECK ((`end_at` >= `start_at`))
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `idx_cal_date` (`date_evenement`),
+  KEY `idx_cal_creator` (`cree_par`),
+  CONSTRAINT `fk_cal_user` FOREIGN KEY (`cree_par`) REFERENCES `utilisateurs` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,7 +106,7 @@ CREATE TABLE `calendrier_evenements` (
 
 LOCK TABLES `calendrier_evenements` WRITE;
 /*!40000 ALTER TABLE `calendrier_evenements` DISABLE KEYS */;
-INSERT INTO `calendrier_evenements` VALUES (1,'Réunion RH','Mise à jour politique congés','2025-09-10 09:00:00','2025-09-10 10:00:00',NULL,'reunion','departement',2,1);
+INSERT INTO `calendrier_evenements` VALUES (1,'Réunion mensuelle','Suivre KPIs et priorités','2025-09-05',1,'2025-08-30 04:02:08'),(2,'Afterwork','Cafe & jeux','2025-09-12',2,'2025-08-30 04:02:08'),(3,'Clôture sprint','Revue + rétrospective','2025-09-20',1,'2025-08-30 04:02:08'),(4,'Journée formation Java','Atelier Jakarta EE','2025-09-25',2,'2025-08-30 04:02:08'),(5,'Maintenance serveur','Redémarrage Payara','2025-09-03',NULL,'2025-08-30 04:02:23'),(6,'Démo client','Présentation module RH','2025-09-10',NULL,'2025-08-30 04:02:23'),(7,'test','','2025-08-31',2,'2025-08-30 04:11:30'),(8,'Reunion','Test','2025-09-27',2,'2025-09-01 13:11:19');
 /*!40000 ALTER TABLE `calendrier_evenements` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +140,7 @@ CREATE TABLE `conges` (
   CONSTRAINT `fk_conges_type` FOREIGN KEY (`type_id`) REFERENCES `conges_types` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_conges_user` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `conges_chk_1` CHECK ((`date_fin` >= `date_debut`))
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,7 +149,7 @@ CREATE TABLE `conges` (
 
 LOCK TABLES `conges` WRITE;
 /*!40000 ALTER TABLE `conges` DISABLE KEYS */;
-INSERT INTO `conges` VALUES (1,4,1,'2025-09-01','2025-09-05',5.00,'en_attente','Vacances','2025-08-27 01:53:31',NULL,NULL,NULL,NULL,NULL),(2,2,4,'2000-01-01','2002-01-01',732.00,'en_attente','','2025-08-27 22:12:10',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `conges` VALUES (1,4,1,'2025-09-01','2025-09-05',5.00,'en_attente','Vacances','2025-08-27 01:53:31',NULL,NULL,NULL,NULL,NULL),(2,2,4,'2000-01-01','2002-01-01',732.00,'en_attente','','2025-08-27 22:12:10',NULL,NULL,NULL,NULL,NULL),(3,2,3,'2023-01-01','2023-02-10',41.00,'en_attente','Malade - Ci dessus la justification de docteur','2025-08-29 00:15:42',NULL,NULL,'/Users/elmah/gest-rh-uploads/dddec99e-768b-4591-9e5d-dd4410afefa6.pdf','pdf maladie test.pdf','application/pdf'),(4,2,3,'2011-11-11','2011-12-11',31.00,'approuve','','2025-08-29 00:29:43','2025-08-29 11:39:36',NULL,'/Users/elmah/gest-rh-uploads/0427d474-404e-433e-a69c-95fc5c74680d.pdf','pdf maladie test.pdf','application/pdf'),(5,2,3,'2011-11-11','2011-11-12',2.00,'rejete','teeessss','2025-08-29 01:12:38','2025-08-29 11:39:35',NULL,NULL,NULL,NULL),(6,2,3,'2022-11-11','2022-12-11',31.00,'rejete','','2025-08-29 02:31:02','2025-08-29 11:47:50',NULL,NULL,NULL,NULL),(7,2,3,'2019-01-01','2019-02-01',32.00,'approuve','111','2025-08-29 11:01:51','2025-08-29 11:39:32',NULL,'/Users/elmah/gest-rh-uploads/533fe771-3629-47ed-9276-222f11b195b5.pdf','pdf maladie test.pdf','application/pdf');
 /*!40000 ALTER TABLE `conges` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +203,7 @@ CREATE TABLE `conges_types` (
   `actif` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_conges_type_code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,7 +232,7 @@ CREATE TABLE `departements` (
   UNIQUE KEY `uq_departement_nom` (`nom_departement`),
   KEY `fk_dept_responsable` (`responsable_id`),
   CONSTRAINT `fk_dept_responsable` FOREIGN KEY (`responsable_id`) REFERENCES `utilisateurs` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,7 +241,7 @@ CREATE TABLE `departements` (
 
 LOCK TABLES `departements` WRITE;
 /*!40000 ALTER TABLE `departements` DISABLE KEYS */;
-INSERT INTO `departements` VALUES (1,'Ressources Humaines',2,NULL),(2,'Informatique',NULL,NULL),(3,'Finance',NULL,NULL),(4,'Marketing',NULL,NULL);
+INSERT INTO `departements` VALUES (1,'Ressources Humaines',2,NULL),(2,'Informatique',NULL,NULL),(3,'Finance',NULL,NULL),(4,'Marketing',4,NULL),(5,'Design',4,'2025-08-30 02:57:33');
 /*!40000 ALTER TABLE `departements` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -458,6 +451,38 @@ INSERT INTO `postes` VALUES (1,'DRH','Directeur RH',1,NULL),(2,'Développeur Bac
 UNLOCK TABLES;
 
 --
+-- Table structure for table `presence_intervals`
+--
+
+DROP TABLE IF EXISTS `presence_intervals`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `presence_intervals` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `presence_id` int NOT NULL,
+  `start_time` datetime NOT NULL,
+  `end_time` datetime DEFAULT NULL,
+  `minutes` int GENERATED ALWAYS AS (timestampdiff(MINUTE,`start_time`,`end_time`)) STORED,
+  `commentaire` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_presence_open` (`presence_id`,`end_time`),
+  KEY `idx_presence_start` (`presence_id`,`start_time`),
+  CONSTRAINT `fk_presence_intervals_presence` FOREIGN KEY (`presence_id`) REFERENCES `presences` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `presence_intervals`
+--
+
+LOCK TABLES `presence_intervals` WRITE;
+/*!40000 ALTER TABLE `presence_intervals` DISABLE KEYS */;
+INSERT INTO `presence_intervals` (`id`, `presence_id`, `start_time`, `end_time`, `commentaire`, `created_at`) VALUES (1,2,'2025-08-31 19:01:34','2025-08-31 19:01:37',NULL,'2025-08-31 19:01:33'),(2,2,'2025-08-31 19:01:38','2025-08-31 19:01:41',NULL,'2025-08-31 19:01:38'),(3,2,'2025-08-31 19:01:42','2025-08-31 19:01:44',NULL,'2025-08-31 19:01:41'),(4,2,'2025-08-31 19:01:47','2025-08-31 19:01:49',NULL,'2025-08-31 19:01:46'),(5,2,'2025-08-31 19:01:51','2025-08-31 19:01:55',NULL,'2025-08-31 19:01:50'),(6,2,'2025-08-31 19:03:26','2025-08-31 19:05:02',NULL,'2025-08-31 19:03:26'),(7,2,'2025-08-31 19:21:44','2025-08-31 19:21:48',NULL,'2025-08-31 19:21:43'),(8,2,'2025-08-31 23:14:50','2025-08-31 23:14:51',NULL,'2025-08-31 23:14:50'),(9,2,'2025-08-31 23:16:11','2025-08-31 23:26:13',NULL,'2025-08-31 23:16:10'),(10,2,'2025-08-31 23:26:14','2025-08-31 23:26:16',NULL,'2025-08-31 23:26:14'),(11,2,'2025-08-31 23:26:18','2025-08-31 23:26:21',NULL,'2025-08-31 23:26:18'),(12,5,'2025-09-01 01:40:12','2025-09-01 01:40:15',NULL,'2025-09-01 01:40:12'),(13,5,'2025-09-01 13:10:51','2025-09-01 13:10:57',NULL,'2025-09-01 13:10:51');
+/*!40000 ALTER TABLE `presence_intervals` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `presences`
 --
 
@@ -477,7 +502,7 @@ CREATE TABLE `presences` (
   UNIQUE KEY `uq_presence_user_day` (`utilisateur_id`,`jour`),
   KEY `idx_presence_user` (`utilisateur_id`),
   CONSTRAINT `fk_presence_user` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -486,7 +511,7 @@ CREATE TABLE `presences` (
 
 LOCK TABLES `presences` WRITE;
 /*!40000 ALTER TABLE `presences` DISABLE KEYS */;
-INSERT INTO `presences` (`id`, `utilisateur_id`, `jour`, `heure_entree`, `heure_sortie`, `statut`, `commentaire`) VALUES (1,4,'2025-08-27','09:01:00','17:06:00','present',NULL);
+INSERT INTO `presences` (`id`, `utilisateur_id`, `jour`, `heure_entree`, `heure_sortie`, `statut`, `commentaire`) VALUES (1,4,'2025-08-27','09:01:00','17:06:00','present',NULL),(2,2,'2025-08-31','18:25:29','18:25:41','absent',NULL),(5,2,'2025-09-01',NULL,NULL,'absent',NULL);
 /*!40000 ALTER TABLE `presences` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -709,9 +734,42 @@ CREATE TABLE `utilisateurs` (
 
 LOCK TABLES `utilisateurs` WRITE;
 /*!40000 ALTER TABLE `utilisateurs` DISABLE KEYS */;
-INSERT INTO `utilisateurs` VALUES (1,'Root','Admin','admin@gest.local','$2a$12$ImhBJz6nWE5IVrxsvNSDdexzErizmHnHqjn4vvGZzxqw0PF1zWteS',1,1,NULL,NULL,NULL,'actif','CDI',NULL,NULL,NULL,'2025-08-27 01:53:30',NULL,NULL),(2,'Durand','Alice','alice.rh@gest.local','$2a$12$ImhBJz6nWE5IVrxsvNSDdexzErizmHnHqjn4vvGZzxqw0PF1zWteS',1,1,NULL,NULL,NULL,'actif','CDI',NULL,NULL,NULL,'2025-08-27 01:53:30',NULL,NULL),(3,'Martin','Bob','bob.manager@gest.local','$2a$12$ImhBJz6nWE5IVrxsvNSDdexzErizmHnHqjn4vvGZzxqw0PF1zWteS',2,2,NULL,NULL,NULL,'actif','CDI',NULL,NULL,NULL,'2025-08-27 01:53:30',NULL,NULL),(4,'Petit','Chloe','chloe.user@gest.local','$2a$12$ImhBJz6nWE5IVrxsvNSDdexzErizmHnHqjn4vvGZzxqw0PF1zWteS',3,2,3,NULL,NULL,'actif','CDD',NULL,NULL,NULL,'2025-08-27 01:53:30',NULL,NULL);
+INSERT INTO `utilisateurs` VALUES (1,'Root','Admin','admin@gest.local','$2a$12$ImhBJz6nWE5IVrxsvNSDdexzErizmHnHqjn4vvGZzxqw0PF1zWteS',1,1,NULL,NULL,NULL,'actif','CDI',NULL,NULL,NULL,'2025-08-27 01:53:30',NULL,NULL),(2,'Durand','Alice','alice.rh@gest.local','$2a$12$ImhBJz6nWE5IVrxsvNSDdexzErizmHnHqjn4vvGZzxqw0PF1zWteS',1,1,NULL,'','','actif','CDI',NULL,NULL,700.00,'2025-08-27 01:53:30','2025-09-01 13:10:57',NULL),(3,'Martin','Boba','bob.manager@gest.local','$2a$12$ImhBJz6nWE5IVrxsvNSDdexzErizmHnHqjn4vvGZzxqw0PF1zWteS',2,2,NULL,'','','actif','CDI',NULL,NULL,2000.00,'2025-08-27 01:53:30',NULL,NULL),(4,'Petit','Chloe','chloe.user@gest.local','$2a$12$ImhBJz6nWE5IVrxsvNSDdexzErizmHnHqjn4vvGZzxqw0PF1zWteS',3,2,3,'','','actif','CDD',NULL,NULL,1200.00,'2025-08-27 01:53:30',NULL,NULL);
 /*!40000 ALTER TABLE `utilisateurs` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Temporary view structure for view `v_presence_day_totals`
+--
+
+DROP TABLE IF EXISTS `v_presence_day_totals`;
+/*!50001 DROP VIEW IF EXISTS `v_presence_day_totals`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `v_presence_day_totals` AS SELECT 
+ 1 AS `presence_id`,
+ 1 AS `utilisateur_id`,
+ 1 AS `jour`,
+ 1 AS `total_minutes`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `v_presence_day_totals`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_presence_day_totals`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_presence_day_totals` AS select `p`.`id` AS `presence_id`,`p`.`utilisateur_id` AS `utilisateur_id`,`p`.`jour` AS `jour`,coalesce(sum(`pi`.`minutes`),0) AS `total_minutes` from (`presences` `p` left join `presence_intervals` `pi` on(((`pi`.`presence_id` = `p`.`id`) and (`pi`.`end_time` is not null)))) group by `p`.`id`,`p`.`utilisateur_id`,`p`.`jour` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -722,4 +780,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-28 23:41:48
+-- Dump completed on 2025-09-01 13:36:31
