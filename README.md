@@ -166,5 +166,4 @@ Abdellatif El Mahdaoui
 INFOSAT Agadir
 
 📜 Licence
-Ce projet est distribué sous licence MIT – libre d’utilisation et de modification.# GestRH – Application de Gestion des Ressources Humaines
- 
+Ce projet est distribué sous licence MIT – libre d’utilisation et de modification.
