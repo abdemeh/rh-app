@@ -38,7 +38,7 @@
             <div class="card shadow-sm h-100 border-warning">
                 <div class="card-body">
                     <h5 class="card-title">Administration</h5>
-                    <p class="card-text">Utilisateurs, départements, congés en attente, types de congés…</p>
+                    <p class="card-text">Employés, départements, congés en attente, types de congés…</p>
                     <a class="btn btn-warning" href="<%= ctx %>/admin/">Entrer</a>
                 </div>
             </div>

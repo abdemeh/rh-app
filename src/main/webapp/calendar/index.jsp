@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ include file="/admin/_layout.jspf" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ include file="/secure/_layout.jspf" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <div class="container py-4">
   <main class="container-fluid py-4">

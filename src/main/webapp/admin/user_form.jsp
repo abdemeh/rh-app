@@ -3,7 +3,7 @@
 <%@ include file="_layout.jspf" %>
 <div class="container py-4">
   <main class="container-fluid py-4">
-    <h3 class="mb-4"><c:out value="${u == null ? 'Créer un utilisateur' : 'Éditer un utilisateur'}"/></h3>
+    <h3 class="mb-4"><c:out value="${u == null ? 'Créer un employé' : 'Éditer un employé'}"/></h3>
 
     <form method="post" action="${pageContext.request.contextPath}/admin/users/save" class="row g-3">
       <c:if test="${u != null}">

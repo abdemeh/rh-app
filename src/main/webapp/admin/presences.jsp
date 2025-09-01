@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-5 d-flex gap-2">
                 <button class="btn btn-primary" type="submit">Afficher</button>
-                <a class="btn btn-outline-secondary"
+                <a class="btn btn-outline-danger"
                    href="${ctx}/admin/presences/pdf?userId=${selectedUserId}&month=${selectedMonth}" target="_blank">
                     Télécharger PDF
                 </a>
@@ -81,7 +81,7 @@
         </form>
 
         <!-- Récapitulatif du mois en 2 colonnes -->
-        <div class="card mb-4">
+        <div class="card mt-4 mb-4">
             <div class="card-body">
                 <h5 class="card-title mb-3">Récapitulatif du mois</h5>
 

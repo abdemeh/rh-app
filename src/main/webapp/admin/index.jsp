@@ -13,14 +13,14 @@
     </style>
 </head>
 <body class="bg-body-tertiary">
-<div class="container py-4">
+<div class="container py-4 mb-4">
 
     <!-- ====== Widgets ====== -->
     <div class="row g-3 mb-3">
         <div class="col-md-3">
             <div class="card shadow-sm h-100"><div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
-                    <div class="h6 text-muted mb-0">Utilisateurs</div>
+                    <div class="h6 text-muted mb-0">Employés</div>
                     <a class="btn btn-sm btn-outline-primary" href="<c:url value='/admin/users'/>">Gérer</a>
                 </div>
                 <div class="display-6 fw-bold mt-2">${usersCount}</div>
@@ -41,7 +41,7 @@
             <div class="card shadow-sm h-100"><div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="h6 text-muted mb-0">Congés en attente</div>
-                    <a class="btn btn-sm btn-outline-primary" href="<c:url value='/admin/conges/pending'/>">Voir</a>
+                    <a class="btn btn-sm btn-outline-primary" href="<c:url value='/admin/conges/pending'/>">Afficher</a>
                 </div>
                 <div class="display-6 fw-bold mt-2">${pendingCount}</div>
             </div></div>
@@ -76,7 +76,7 @@
     <!-- ====== Charts ====== -->
     <div class="row g-3">
         <!-- Line -->
-        <div class="col-lg-8">
+        <div class="col-lg-9">
             <div class="card shadow-sm chart-card"><div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="h6 mb-0">Activité mensuelle</div>
@@ -87,7 +87,7 @@
         </div>
 
         <!-- Doughnut -->
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <div class="card shadow-sm chart-card"><div class="card-body">
                 <div class="h6 mb-0">Répartition des congés</div>
                 <canvas id="doughnutChart" class="mt-3"></canvas>
@@ -97,7 +97,7 @@
         <!-- Bar -->
         <div class="col-12">
             <div class="card shadow-sm chart-card"><div class="card-body">
-                <div class="h6 mb-0">Utilisateurs par département</div>
+                <div class="h6 mb-0">Employés par département</div>
                 <canvas id="barChart" class="mt-3"></canvas>
             </div></div>
         </div>
@@ -154,7 +154,7 @@
 
         const barData = {
             labels: data.usersByDept.labels,
-            datasets: [{ label: 'Utilisateurs', data: data.usersByDept.counts }]
+            datasets: [{ label: 'Employés', data: data.usersByDept.counts }]
         };
 
         if (lineChart)  lineChart.destroy();

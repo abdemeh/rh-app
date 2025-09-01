@@ -4,8 +4,8 @@
 <div class="container py-4">
   <main class="container-fluid py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h3 class="m-0">Utilisateurs</h3>
-      <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/users/edit">+ Nouvel utilisateur</a>
+      <h3 class="m-0">Employés</h3>
+      <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/users/edit">+ Nouvel employé</a>
     </div>
 
     <c:choose>
@@ -14,8 +14,8 @@
       </c:when>
       <c:otherwise>
         <div class="table-responsive">
-          <table class="table table-striped table-hover align-middle">
-            <thead class="table-dark">
+          <table class="table table-hover align-middle">
+            <thead>
             <tr>
               <th>#</th>
               <th>Nom</th>

@@ -35,8 +35,8 @@
 
     <!-- List -->
     <div class="table-responsive">
-      <table class="table table-striped table-hover align-middle">
-        <thead class="table-dark">
+      <table class="table table-hover align-middle">
+        <thead>
         <tr>
           <th>#</th>
           <th>Code</th>

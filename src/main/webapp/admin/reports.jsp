@@ -41,7 +41,7 @@
           </div>
 
           <div class="col-md-2 d-flex align-items-end">
-            <button class="btn btn-primary w-100" type="submit">Générer le PDF</button>
+            <button class="btn btn-primary w-100" type="submit">Générer PDF</button>
           </div>
         </form>
       </div>

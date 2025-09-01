@@ -1,0 +1,23 @@
+/* Import de la police Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Appliquer Poppins globalement */
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Optionnel : améliorer le rendu */
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #f8f9fa; /* léger fond clair */
+}
+.btn{
+    font-weight: bolder !important;;
+    text-transform: uppercase !important;
+}
